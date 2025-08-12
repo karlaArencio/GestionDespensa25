@@ -3,6 +3,7 @@ using GestionDespensa25.BD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDespensa25.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20250812031753_UltimasTablas")]
+    partial class UltimasTablas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,152 +126,6 @@ namespace GestionDespensa25.BD.Migrations
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.CompraProveedor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FechaCompra")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Observaciones")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProveedorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Total")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProveedorId");
-
-                    b.ToTable("CompraProveedores");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.DetalleCaja", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CajaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Concepto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FechaHora")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Monto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Referencia")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TipoMovimiento")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CajaId");
-
-                    b.ToTable("DetalleCajas");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.DetalleCompraProveedor", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Cantidad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CompraProveedorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PrecioUnitario")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompraProveedorId");
-
-                    b.HasIndex("ProductoId");
-
-                    b.ToTable("DetalleCompraProveedores");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.DetalleVenta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Cantidad")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PrecioUnitario")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Subtotal")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VentaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductoId");
-
-                    b.HasIndex("VentaId");
-
-                    b.ToTable("DetalleVentas");
-                });
-
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Producto", b =>
                 {
                     b.Property<int>("Id")
@@ -337,6 +194,14 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Cantidad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PrecioUnitario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductoId")
                         .HasColumnType("int");
@@ -412,124 +277,6 @@ namespace GestionDespensa25.BD.Migrations
                     b.ToTable("Proveedores");
                 });
 
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Venta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("CajaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClienteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Fecha")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Impuesto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MontoPagado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SaldoPendiente")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SubTotal")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TipoPago")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Total")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CajaId");
-
-                    b.HasIndex("ClienteId");
-
-                    b.ToTable("Ventas");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.CompraProveedor", b =>
-                {
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.Proveedor", "Proveedor")
-                        .WithMany()
-                        .HasForeignKey("ProveedorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Proveedor");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.DetalleCaja", b =>
-                {
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.Caja", "Caja")
-                        .WithMany()
-                        .HasForeignKey("CajaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Caja");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.DetalleCompraProveedor", b =>
-                {
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.CompraProveedor", "CompraProveedor")
-                        .WithMany()
-                        .HasForeignKey("CompraProveedorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CompraProveedor");
-
-                    b.Navigation("Producto");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.DetalleVenta", b =>
-                {
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.Venta", "venta")
-                        .WithMany()
-                        .HasForeignKey("VentaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Producto");
-
-                    b.Navigation("venta");
-                });
-
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Producto", b =>
                 {
                     b.HasOne("GestionDespensa25.BD.Data.Entity.Categoria", "Categoria")
@@ -558,25 +305,6 @@ namespace GestionDespensa25.BD.Migrations
                     b.Navigation("Producto");
 
                     b.Navigation("Proveedor");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Venta", b =>
-                {
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.Caja", "Caja")
-                        .WithMany()
-                        .HasForeignKey("CajaId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.Cliente", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Caja");
-
-                    b.Navigation("Cliente");
                 });
 
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Categoria", b =>

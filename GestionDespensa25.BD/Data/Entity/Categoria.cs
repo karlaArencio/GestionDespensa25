@@ -15,5 +15,7 @@ namespace GestionDespensa25.BD.Data.Entity
         [Required(ErrorMessage = "El NombreCategoria del producto es obligatorio,")]
         [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string NombreCategoria { get; set; }
+
+        public List<Producto> Productos { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,13 @@ namespace GestionDespensa25.BD.Data.Entity
 {
     public class ProductoProveedor : EntityBase
     {
-        public string PrecioUnitario { get; set; }
-        public string Cantidad { get; set; }
+        [Required(ErrorMessage = "El producto y el proveedor es obligatorio,")]
+   
+        public int ProductoId { get; set; }
+        public Producto Producto { get; set; }
+
+        [Required(ErrorMessage = "El Proveedor es obligatorio,")]
+        public int ProveedorId { get; set; }
+        public Proveedor Proveedor { get; set; }
     }
 }
