@@ -3,6 +3,7 @@ using GestionDespensa25.BD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDespensa25.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20250814013555_MaximaLongitudCompraProveedor")]
+    partial class MaximaLongitudCompraProveedor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,16 +231,14 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.Property<string>("Cantidad")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CompraProveedorId")
                         .HasColumnType("int");
 
                     b.Property<string>("PrecioUnitario")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductoId")
                         .HasColumnType("int");
@@ -246,8 +247,7 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.HasIndex("CompraProveedorId");
 
-                    b.HasIndex(new[] { "ProductoId", "Cantidad" }, "DetalleCompraProveedor_UQ")
-                        .IsUnique();
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("DetalleCompraProveedores");
                 });
@@ -370,10 +370,9 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProveedorId");
+                    b.HasIndex("ProductoId");
 
-                    b.HasIndex(new[] { "ProductoId" }, "ProductoProveedor_UQ")
-                        .IsUnique();
+                    b.HasIndex("ProveedorId");
 
                     b.ToTable("ProductoProveedores");
                 });
@@ -391,8 +390,8 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.Property<string>("CUIT")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Direccion")
                         .IsRequired()
@@ -421,8 +420,8 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.Property<string>("Observacion")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
@@ -507,7 +506,7 @@ namespace GestionDespensa25.BD.Migrations
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.CompraProveedor", b =>
                 {
                     b.HasOne("GestionDespensa25.BD.Data.Entity.Proveedor", "Proveedor")
-                        .WithMany("CompraProveedores")
+                        .WithMany()
                         .HasForeignKey("ProveedorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -646,8 +645,6 @@ namespace GestionDespensa25.BD.Migrations
 
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Proveedor", b =>
                 {
-                    b.Navigation("CompraProveedores");
-
                     b.Navigation("ProductoProveedores");
                 });
 

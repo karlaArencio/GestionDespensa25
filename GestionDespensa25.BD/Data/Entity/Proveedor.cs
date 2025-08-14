@@ -17,8 +17,9 @@ namespace GestionDespensa25.BD.Data.Entity
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "El CUIT del Proveedor es obligatorio,")]
-        [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1} ,")]
+        [MaxLength(20, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string CUIT { get; set; }
+
         [Required(ErrorMessage = "El Telefono del proveedor es obligatorio,")]
         [MaxLength(20, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string Telefono { get; set; }
@@ -39,10 +40,11 @@ namespace GestionDespensa25.BD.Data.Entity
         public string FechaAlta { get; set; }
 
         [Required(ErrorMessage = "La Observacion del Proveedor es obligatorio,")]
-        [MaxLength(10, ErrorMessage = "Maximo número de caracteres {1} ,")]
+        [MaxLength(150, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string Observacion { get; set; }
         
         public List<ProductoProveedor> ProductoProveedores { get; set; }
+        public List<CompraProveedor> CompraProveedores { get; set; }
     }
 
 }

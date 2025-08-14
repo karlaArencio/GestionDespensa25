@@ -3,6 +3,7 @@ using GestionDespensa25.BD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDespensa25.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20250814015905_IndiceProductoProveedor")]
+    partial class IndiceProductoProveedor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,16 +231,14 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.Property<string>("Cantidad")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CompraProveedorId")
                         .HasColumnType("int");
 
                     b.Property<string>("PrecioUnitario")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductoId")
                         .HasColumnType("int");
@@ -246,8 +247,7 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.HasIndex("CompraProveedorId");
 
-                    b.HasIndex(new[] { "ProductoId", "Cantidad" }, "DetalleCompraProveedor_UQ")
-                        .IsUnique();
+                    b.HasIndex("ProductoId");
 
                     b.ToTable("DetalleCompraProveedores");
                 });

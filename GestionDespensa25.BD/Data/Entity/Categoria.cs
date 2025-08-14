@@ -9,7 +9,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GestionDespensa25.BD.Data.Entity
 {
-    [Index(nameof(NombreCategoria), Name = "Producto_UQ", IsUnique = true)]
+    [Index(nameof(NombreCategoria), Name = "Categoria_UQ", IsUnique = true)]
     public class Categoria : EntityBase
     {
         [Required(ErrorMessage = "El NombreCategoria del producto es obligatorio,")]

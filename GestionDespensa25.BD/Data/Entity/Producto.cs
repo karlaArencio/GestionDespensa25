@@ -33,7 +33,7 @@ namespace GestionDespensa25.BD.Data.Entity
         public string PorcentajeGanancia { get; set; }
 
         [Required(ErrorMessage = "El PrecioVenta es obligatorio,")]
-        [MaxLength(10, ErrorMessage = "Maximo número de caracteres {1} ,")]
+        [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string PrecioVenta { get; set; }
 
         [Required(ErrorMessage = "El Estado es obligatorio,")]
@@ -41,10 +41,12 @@ namespace GestionDespensa25.BD.Data.Entity
         public string Estado { get; set; }
 
         [Required(ErrorMessage = "La categoria del producto es obligatorio,")]
-        [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1} ,")]
+        
         public int CategoriaId { get; set;  }
         public Categoria Categoria { get; set; }
 
         public List<ProductoProveedor> ProductoProveedores { get; set; }
+        public List<DetalleVenta> DetalleVentas { get; set; }
+        public List<DetalleCompraProveedor> DetalleCompraProveedores { get; set; }
     }
 }
