@@ -3,6 +3,7 @@ using GestionDespensa25.BD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDespensa25.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20250822042108_ActualizoCaja")]
+    partial class ActualizoCaja
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -455,17 +458,13 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.Property<string>("Clave")
                         .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreUsuario")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex(new[] { "NombreUsuario", "Clave" }, "Usuario_Clave_NombreUsuario");
 
                     b.ToTable("Usuarios");
                 });
@@ -480,6 +479,9 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
+
+                    b.Property<int>("CajaId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
@@ -528,6 +530,8 @@ namespace GestionDespensa25.BD.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CajaId");
 
                     b.HasIndex("UsuarioId");
 
@@ -640,6 +644,12 @@ namespace GestionDespensa25.BD.Migrations
 
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Venta", b =>
                 {
+                    b.HasOne("GestionDespensa25.BD.Data.Entity.Caja", "Caja")
+                        .WithMany()
+                        .HasForeignKey("CajaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("GestionDespensa25.BD.Data.Entity.Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId")
@@ -651,6 +661,8 @@ namespace GestionDespensa25.BD.Migrations
                         .HasForeignKey("UsuarioId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Caja");
 
                     b.Navigation("Cliente");
 

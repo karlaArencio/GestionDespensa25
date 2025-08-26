@@ -32,6 +32,6 @@ namespace GestionDespensa25.BD.Data.Entity
         [Required(ErrorMessage = "La Direccion del cliente es obligatorio,")]
         [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string Direccion { get; set; }
-        public List<Venta> Ventas { get; set; } //Relacion 1:N un cliente puede tener muchas ventas
+        //public List<Venta> Ventas { get; set; } //Relacion 1:N un cliente puede tener muchas ventas
     }
 }

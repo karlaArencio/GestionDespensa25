@@ -3,6 +3,7 @@ using GestionDespensa25.BD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GestionDespensa25.BD.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20250822033613_TablaUsuario")]
+    partial class TablaUsuario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,12 +58,7 @@ namespace GestionDespensa25.BD.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId");
 
                     b.HasIndex(new[] { "FechaApertura" }, "Caja_UQ")
                         .IsUnique();
@@ -455,17 +453,13 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.Property<string>("Clave")
                         .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("nvarchar(8)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NombreUsuario")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex(new[] { "NombreUsuario", "Clave" }, "Usuario_Clave_NombreUsuario");
 
                     b.ToTable("Usuarios");
                 });
@@ -480,6 +474,9 @@ namespace GestionDespensa25.BD.Migrations
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
+
+                    b.Property<int>("CajaId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ClienteId")
                         .HasColumnType("int");
@@ -524,28 +521,14 @@ namespace GestionDespensa25.BD.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<int>("UsuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("CajaId");
 
                     b.HasIndex(new[] { "ClienteId", "Fecha" }, "Venta_UQ")
                         .IsUnique();
 
                     b.ToTable("Ventas");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Caja", b =>
-                {
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.Usuario", "Usuario")
-                        .WithMany("Cajas")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.CompraProveedor", b =>
@@ -640,21 +623,21 @@ namespace GestionDespensa25.BD.Migrations
 
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Venta", b =>
                 {
+                    b.HasOne("GestionDespensa25.BD.Data.Entity.Caja", "Caja")
+                        .WithMany()
+                        .HasForeignKey("CajaId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("GestionDespensa25.BD.Data.Entity.Cliente", "Cliente")
                         .WithMany()
                         .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("GestionDespensa25.BD.Data.Entity.Usuario", "Usuario")
-                        .WithMany("Ventas")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Navigation("Caja");
 
                     b.Navigation("Cliente");
-
-                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Caja", b =>
@@ -686,13 +669,6 @@ namespace GestionDespensa25.BD.Migrations
                     b.Navigation("CompraProveedores");
 
                     b.Navigation("ProductoProveedores");
-                });
-
-            modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Usuario", b =>
-                {
-                    b.Navigation("Cajas");
-
-                    b.Navigation("Ventas");
                 });
 
             modelBuilder.Entity("GestionDespensa25.BD.Data.Entity.Venta", b =>

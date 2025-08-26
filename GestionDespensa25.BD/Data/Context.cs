@@ -10,6 +10,7 @@ namespace GestionDespensa25.BD.Data
 {
     public class Context : DbContext
     {
+        public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<DetalleCompraProveedor> DetalleCompraProveedores { get; set; }
         public DbSet<CompraProveedor> CompraProveedores { get; set; }
         public DbSet<DetalleVenta> DetalleVentas { get; set; }

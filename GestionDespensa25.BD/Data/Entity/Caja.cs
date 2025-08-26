@@ -30,8 +30,11 @@ namespace GestionDespensa25.BD.Data.Entity
         [Required(ErrorMessage = "El Estado de caja es obligatorio")]
         [MaxLength(50, ErrorMessage = "Máximo número de caracteres {1}.")]
         public string Estado { get; set; } //abierta, cerrada, etc.
-        
+
+        [Required(ErrorMessage = "El usuario es obligatorio")]
+        public int UsuarioId { get; set; }
+        public Usuario Usuario { get; set; }
         public List<DetalleCaja> DetalleCajas { get; set; }
-        public List<Venta> Ventas { get; set; } 
+        
     }
 }

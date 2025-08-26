@@ -1,8 +1,13 @@
 using GestionDespensa25.BD.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 //---------------------------------------------------------------------------------------------------
 //Configuracion de los servicios en el constructor de la aplicacion
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(
+    x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 // Add services to the container.
 
