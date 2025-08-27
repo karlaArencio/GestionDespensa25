@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GestionDespensa25.BD\GestionDespensa25.BD.csproj" />
+    <ProjectReference Include="..\GestionDespensa25.Shared\GestionDespensa25.Shared.csproj" />
   </ItemGroup>
 
 </Project>
