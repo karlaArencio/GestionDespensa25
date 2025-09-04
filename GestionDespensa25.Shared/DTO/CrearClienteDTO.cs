@@ -1,18 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionDespensa25.BD.Data.Entity
+namespace GestionDespensa25.Shared.DTO
 {
-    [Index(nameof(Nombre), Name = "Cliente_UQ", IsUnique = true)]
-   
-    public class Cliente : EntityBase
+    public class CrearClienteDTO
     {
-
         [Required(ErrorMessage = "El nombre del cliente es obligatorio,")]
         [MaxLength(100, ErrorMessage = "Máximo número de caracteres {1} ,")]
         public string Nombre { get; set; }
@@ -34,8 +30,9 @@ namespace GestionDespensa25.BD.Data.Entity
         public string Direccion { get; set; }
 
         [Required(ErrorMessage = "El estado del cliente es obligatorio,")]
-        [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1} ,")]
+        [MaxLength(100, ErrorMessage = "El estado del cliente es obligatorio {1},")]
         public string Estado { get; set; }
-        //public List<Venta> Ventas { get; set; } //Relacion 1:N un cliente puede tener muchas ventas
+
+
     }
 }

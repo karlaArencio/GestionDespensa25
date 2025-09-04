@@ -1,7 +1,11 @@
-﻿using GestionDespensa25.BD.Data;
+﻿using AutoMapper;
+using GestionDespensa25.BD.Data;
 using GestionDespensa25.BD.Data.Entity;
+using GestionDespensa25.Server.Repositorio;
+using GestionDespensa25.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 
 namespace GestionDespensa25.Server.Controllers
@@ -10,23 +14,25 @@ namespace GestionDespensa25.Server.Controllers
     [Route("api/Clientes")]
     public class ClientesControllers : ControllerBase
     {
-        private readonly Context context;
-        public ClientesControllers(Context context)
+        private readonly IClienteRepositorio repositorio;
+        private readonly IMapper mapper;
+
+        public ClientesControllers(IClienteRepositorio repositorio)
         {
-            this.context = context;
+            
+            this.repositorio = repositorio;
         }
 
         [HttpGet] //api/Clientes
         public async Task<ActionResult<List<Cliente>>> Get()
         {
-            return await context.Clientes.ToListAsync();
+            return await repositorio.Select();
         }
 
         [HttpGet("{id:int}")]//api/Clientes/existe/2
         public async Task<ActionResult<Cliente>> Get(int id)
         {
-            Cliente? nom = await context.Clientes
-                      .FirstOrDefaultAsync(x => x.Id == id);
+            Cliente? nom = await repositorio.SelectById(id);
             if (nom ==null)
             {
                 return NotFound();
@@ -37,8 +43,7 @@ namespace GestionDespensa25.Server.Controllers
         [HttpGet("{ape}")]//api/Clientes/Apellido
         public async Task<ActionResult<Cliente>> GetByApe(string ape)
         {
-            Cliente? nom = await context.Clientes
-                      .FirstOrDefaultAsync(x => x.Apellido == ape);
+            Cliente? nom = await repositorio.SelectByApe(ape);
             if (nom == null)
             {
                 return NotFound();
@@ -49,8 +54,8 @@ namespace GestionDespensa25.Server.Controllers
         [HttpGet("existe/{id:int}")] //api/Clientes/existe/1
         public async Task<ActionResult<bool>> Existe(int id)
         {
-            var existe = await context.Clientes.AnyAsync(x => x.Id == id);
-            return existe;
+            
+            return await repositorio.Existe(id);
         }
 
         [HttpPost]
@@ -58,13 +63,21 @@ namespace GestionDespensa25.Server.Controllers
         {
             try
             {
-                context.Clientes.Add(entidad);
-                await context.SaveChangesAsync();
-                return entidad.Id;
+                //Cliente entidad = new Cliente();
+                //entidad.Nombre = entidadDTO.Nombre;
+                //entidad.Apellido = entidadDTO.Apellido;
+                //entidad.DNI = entidadDTO.DNI;
+                //entidad.Telefono = entidadDTO.Telefono;
+                //entidad.Direccion = entidadDTO.Direccion;
+                //entidad.Estado = entidadDTO.Estado;
+
+                //Cliente entidad = mapper.Map<Cliente>(entidadDTO);
+               
+                return await repositorio.Insert(entidad);
             }
-            catch (Exception e)
+            catch (Exception err)
             {
-                return BadRequest(e.Message); //BadRequest:codigo de estado http 404
+                return BadRequest(err.InnerException.Message); //BadRequest:codigo de estado http 404
             }
         }
 
@@ -72,30 +85,20 @@ namespace GestionDespensa25.Server.Controllers
         public async Task<ActionResult> Put(int id, [FromBody] Cliente entidad)
 
         {
-            if (id==entidad.Id)
-            {
-                return BadRequest("Datos Incorrectos");
-            }
-            var nom = await context.Clientes.
-                      Where(e=> e.Id==id)
-                      .FirstOrDefaultAsync();
-
-            if(nom == null)
-            {
-                return NotFound("No existe el nombre del cliente.");
-            }
-            nom.Nombre = entidad.Nombre;
-            nom.Apellido = entidad.Apellido;
-            nom.DNI = entidad.DNI;
-            nom.Telefono = entidad.Telefono;
-            nom.Direccion = entidad.Direccion;
-            nom.Activo = entidad.Activo;
-            
             try
             {
-                context.Clientes.Update(nom);
-                await context.SaveChangesAsync();
-                return  Ok();
+                if (id != entidad.Id)
+                {
+                    return BadRequest("Datos Incorrectos");
+                }
+                var nom = await repositorio.Update(id, entidad);
+
+                if (!nom)
+                {
+                    return NotFound("No sepudo actualizar el cliente.");
+                }
+                return Ok();
+
             }
             catch (Exception e)
             {
@@ -105,16 +108,9 @@ namespace GestionDespensa25.Server.Controllers
         [HttpDelete("{id:int}")]//api/Clientes/2
         public async Task<ActionResult>Delete(int id)
         {
-            var existe = await context.Clientes.AnyAsync(x => x.Id == id);
-            if (!existe)
-            {
-                return NotFound($"El clientes {id} no existe.");
-            }
-            Cliente EntidadABorrar = new Cliente();
-            EntidadABorrar.Id = id;
-
-            context.Remove(EntidadABorrar);
-            await context.SaveChangesAsync();
+            var resp= await repositorio.Delete(id);
+            if (!resp)
+            { return BadRequest("El cliente no se pudo borrar"); }
             return Ok($"El cliente {id} fue eliminado correctamente.");
         }
     }

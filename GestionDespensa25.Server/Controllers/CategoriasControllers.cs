@@ -1,5 +1,7 @@
-﻿using GestionDespensa25.BD.Data;
+﻿using AutoMapper;
+using GestionDespensa25.BD.Data;
 using GestionDespensa25.BD.Data.Entity;
+using GestionDespensa25.Server.Repositorio;
 using GestionDespensa25.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,24 +12,26 @@ namespace GestionDespensa25.Server.Controllers
     [Route("api/Categorias")]
     public class CategoriasControllers: ControllerBase
     {
-        private readonly Context context;
+        private readonly ICategoriaRepositorio repositorio;
+        private readonly IMapper mapper;
 
-        public CategoriasControllers(Context context)
+        public CategoriasControllers(ICategoriaRepositorio repositorio,
+                                     IMapper mapper)
         {
-            this.context = context;
+            this.repositorio = repositorio;
+            this.mapper = mapper;
         }
 
         [HttpGet] //api/Categorias
         public async Task<ActionResult<List<Categoria>>> Get()
         {
-            return await context.Categorias.ToListAsync();
+            return await repositorio.Select();
         }
 
-        [HttpGet("{id:int}")]//api/Categorias/existe/2
+        [HttpGet("{id:int}")]//api/Categorias/2
         public async Task<ActionResult<Categoria>> Get(int id)
         {
-            Categoria? categoria = await context.Categorias
-                      .FirstOrDefaultAsync(x => x.Id == id);
+            Categoria? categoria = await repositorio.SelectById(id);
             if (categoria == null)
             {
                 return NotFound();
@@ -35,13 +39,13 @@ namespace GestionDespensa25.Server.Controllers
             return categoria;
         }
 
-        [HttpGet("{nombre}")]//api/Categorias/
-        public async Task<ActionResult<Categoria>> GetByNombre(string nombre)
+       [HttpGet("GetByNom/{nombre}")]//api/Categorias/GetByNom/Bebidas
+        public async Task<ActionResult<Categoria>> GetByNom(string nombre)
         {
-            Categoria? categoria = await context.Categorias
-                      .FirstOrDefaultAsync(x => x.NombreCategoria == nombre);
-            if (categoria == null)
-            {
+            var categoria = await repositorio.SelectByNom(nombre);
+
+           if (categoria == null)
+           {
                 return NotFound($"No se encontro la categoria con nombre:{nombre}");
             }
             return categoria;
@@ -50,7 +54,7 @@ namespace GestionDespensa25.Server.Controllers
         [HttpGet("existe/{id:int}")] //api/Categorias/existe/1
         public async Task<ActionResult<bool>> Existe(int id)
         {
-            var existe = await context.Categorias.AnyAsync(x => x.Id == id);
+            var existe = await repositorio.Existe(id);
             return existe;
         }
 
@@ -59,16 +63,17 @@ namespace GestionDespensa25.Server.Controllers
         {
             try
             {
-                Categoria entidad = new Categoria();
-                entidad.NombreCategoria = entidadDTO.NombreCategoria;
+                //Categoria entidad = new Categoria();
+                //entidad.NombreCategoria = entidadDTO.NombreCategoria;
+                Categoria entidad = mapper.Map<Categoria>(entidadDTO);
 
-                context.Categorias.Add(entidad);
-                await context.SaveChangesAsync();
-                return entidad.Id;
+
+                
+                return await repositorio.Insert(entidad);
             }
-            catch (Exception e)
+            catch (Exception err)
             {
-                return BadRequest(e.Message); //BadRequest:codigo de estado http 404
+                return BadRequest(err.InnerException.Message); //BadRequest:codigo de estado http 404
             }
         }
 
@@ -80,9 +85,7 @@ namespace GestionDespensa25.Server.Controllers
             {
                 return BadRequest("Datos Incorrectos");
             }
-            var nom = await context.Categorias.
-                      Where(e => e.Id == id)
-                      .FirstOrDefaultAsync();
+            var nom = await repositorio.SelectById(id);
 
             if (nom == null)
             {
@@ -93,8 +96,7 @@ namespace GestionDespensa25.Server.Controllers
 
             try
             {
-                context.Categorias.Update(nom);
-                await context.SaveChangesAsync();
+                await repositorio.Update(id, nom);
                 return Ok();
             }
             catch (Exception e)
@@ -102,22 +104,25 @@ namespace GestionDespensa25.Server.Controllers
                 return BadRequest(e.Message);
             }
         }
+
         [HttpDelete("{id:int}")]//api/Categorias/2
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await context.Categorias.AnyAsync(x => x.Id == id);
+            var existe = await repositorio.Existe(id);
             if (!existe)
             {
                 return NotFound($"la categorias {id} no existe.");
             }
-            Categoria EntidadABorrar = new Categoria();
-            EntidadABorrar.Id = id;
-
-            context.Remove(EntidadABorrar);
-            await context.SaveChangesAsync();
-            return Ok($"La categoria {id} fue eliminada correctamente.");
+            if (await repositorio.Delete(id))
+            {
+                return Ok();
+            }
+            else 
+            {
+                return BadRequest();
+            }
+               
         }
-
 
     }
 }

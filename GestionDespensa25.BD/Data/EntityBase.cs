@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GestionDespensa25.BD.Data
 {
-    public class EntityBase
+    public class EntityBase : IEntityBase
     {
         public int Id { get; set; }
         public bool Activo { get; set; }
