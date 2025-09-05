@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionDespensa25.BD", "Ges
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionDespensa25.Shared", "GestionDespensa25.Shared\GestionDespensa25.Shared.csproj", "{A08C4AE7-5CEA-4B98-85BB-76E88E542E06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionDespensa25.Client", "GestionDespensa25.Client\GestionDespensa25.Client.csproj", "{05974D64-34A4-4FCB-84D9-21867EB09910}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A08C4AE7-5CEA-4B98-85BB-76E88E542E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A08C4AE7-5CEA-4B98-85BB-76E88E542E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A08C4AE7-5CEA-4B98-85BB-76E88E542E06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05974D64-34A4-4FCB-84D9-21867EB09910}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05974D64-34A4-4FCB-84D9-21867EB09910}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05974D64-34A4-4FCB-84D9-21867EB09910}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05974D64-34A4-4FCB-84D9-21867EB09910}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
