@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GestionDespensa25.BD.Data;
 using GestionDespensa25.BD.Data.Entity;
+using GestionDespensa25.Server.Repositorio;
 using GestionDespensa25.Shared.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,27 +12,27 @@ namespace GestionDespensa25.Server.Controllers
     [Route("api/Usuarios")]
     public class UsuariosControllers: ControllerBase
     {
-        private readonly Context context;
+        private readonly IUsuarioRepositorio repositorio;
         private readonly IMapper mapper;
 
-        public UsuariosControllers(Context context,
+        public UsuariosControllers(IUsuarioRepositorio repositorio,
                                    IMapper mapper)
         {
-            this.context = context;
+            
+            this.repositorio = repositorio;
             this.mapper = mapper;
         }
 
         [HttpGet] //api/Usuarios
         public async Task<ActionResult<List<Usuario>>> Get()
         {
-            return await context.Usuarios.ToListAsync();
+            return await repositorio.Select();
         }
 
         [HttpGet("{id:int}")]//api/Usuarios/existe/2
         public async Task<ActionResult<Usuario>> Get(int id)
         {
-            Usuario? nom = await context.Usuarios
-                      .FirstOrDefaultAsync(x => x.Id == id);
+            Usuario? nom = await repositorio.SelectById(id);
             if (nom == null)
             {
                 return NotFound();
@@ -39,11 +40,10 @@ namespace GestionDespensa25.Server.Controllers
             return nom;
         }
 
-        [HttpGet("{nombre}")]//api/Usuarios/
-        public async Task<ActionResult<Usuario>> GetByApe(string nombre)
+        [HttpGet("GetByNombre/{nombre}")]//api/Usuarios/por-nombre/Juan
+        public async Task<ActionResult<Usuario>> GetByNombre(string nombre)
         {
-            var usuario = await context.Usuarios
-                      .FirstOrDefaultAsync(x => x.NombreUsuario == nombre);
+            var usuario = await repositorio.SelectByNom(nombre);
             if (usuario == null)
             {
                 return NotFound($"No se encontro el usuario con nombre: {nombre}");
@@ -54,7 +54,7 @@ namespace GestionDespensa25.Server.Controllers
         [HttpGet("existe/{id:int}")] //api/Usuarios/existe/1
         public async Task<ActionResult<bool>> Existe(int id)
         {
-            var existe = await context.Usuarios.AnyAsync(x => x.Id == id);
+            var existe = await repositorio.Existe(id);
             return existe;
         }
 
@@ -68,13 +68,12 @@ namespace GestionDespensa25.Server.Controllers
                 //entidad.Clave = entidadDTO.Clave;
                 //entidad.Rol=entidadDTO.Rol;
                 Usuario entidad = mapper.Map<Usuario>(entidadDTO);
-                context.Usuarios.Add(entidad);
-                await context.SaveChangesAsync();
-                return entidad.Id;
+                
+                return await repositorio.Insert(entidad);
             }
             catch (Exception err)
             {
-                return BadRequest(err.InnerException.Message); //BadRequest:codigo de estado http 404
+                return BadRequest(err.Message); //BadRequest:codigo de estado http 404
             }
         }
 
@@ -86,9 +85,7 @@ namespace GestionDespensa25.Server.Controllers
             {
                 return BadRequest("El id del usuario no coinciden con el id de la entidad ");
             }
-            var usuario = await context.Usuarios.
-                      Where(e => e.Id == id)
-                      .FirstOrDefaultAsync();
+            var usuario = await repositorio.SelectById(id);
 
             if (usuario == null)
             {
@@ -104,8 +101,8 @@ namespace GestionDespensa25.Server.Controllers
                 // Opción 1: explícita
                 // Opción 2: implícita, EF detecta cambios
                 // await context.SaveChangesAsync();
-                context.Usuarios.Update(usuario);
-                await context.SaveChangesAsync(); 
+                await repositorio.Update(id, usuario);
+                
                 return Ok("Usuario actualizado correctamente.");
             }
             catch (Exception e)
@@ -116,17 +113,19 @@ namespace GestionDespensa25.Server.Controllers
         [HttpDelete("{id:int}")]//api/Usuarios/2
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await context.Usuarios.AnyAsync(x => x.Id == id);
+            var existe = await repositorio.Existe(id);
             if (!existe)
             {
                 return NotFound($"El usuario {id} no existe.");
             }
-            Usuario EntidadABorrar = new Usuario();
-            EntidadABorrar.Id = id;
-
-            context.Remove(EntidadABorrar);
-            await context.SaveChangesAsync();
-            return Ok($"El usuario {id} fue eliminado correctamente.");
+            if(await repositorio.Delete(id))
+            {
+                return Ok($"El usuario {id} fue eliminado correctamente.");
+            }
+            else
+            {
+                return BadRequest("No se pudo eliminar el usuario.");
+            }
         }
     }
 }

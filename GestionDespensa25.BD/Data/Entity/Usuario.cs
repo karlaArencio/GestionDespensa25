@@ -20,7 +20,7 @@ namespace GestionDespensa25.BD.Data.Entity
         [MaxLength(8, ErrorMessage = "Máximo número de caracteres {1}.")]
         public string Clave { get; set; }
         //public string Rol  { get; set; }
-        public List<Caja> Cajas { get; set; }
-        public List<Venta> Ventas { get; set; }
+        //public List<Caja> Cajas { get; set; }
+        //public List<Venta> Ventas { get; set; }
     }
 }
