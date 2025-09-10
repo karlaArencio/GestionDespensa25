@@ -1,0 +1,62 @@
+﻿@page "/api/Categorias"
+@using GestionDespensa25.Client.Servicios
+@inject IHttpServicio http
+
+<h3>Lista de categorias</h3>
+
+<table>
+    <tr>
+        <th>NombreCategoria</th>
+    </tr>
+    @if(Mensaje=="")
+    {
+        @if (listaCategorias == null)
+        {
+            <p>Buscando....</p>
+        }
+        else if(listaCategorias.Count == 0)
+        {
+            <p>No existen listas de categorias</p>
+        }
+        else
+        {
+            @foreach (var item in listaCategorias)
+            {
+               <tr>
+                    <td>@item.NombreCategoria</td>
+
+               </tr>
+            }
+        }
+    }
+    else
+    {
+        <p>Error: @Mensaje</p>
+    }
+</table>
+
+@code {
+    List<Categoria> listaCategorias;
+    string Mensaje = "";
+
+    protected override async Task OnInitializedAsync()  //override: sobreescribir
+    {
+        await base.OnInitializedAsync(); //await es cada ves que va asincrono
+        await Leer();
+    }   
+
+    private async Task Leer()
+    {
+        var resp = await http.Get<List<Categoria>>("/api/Categorias");
+        if(!resp.Error)
+        {
+            listaCategorias = resp.Respuesta;
+        }
+        else
+        {
+            Mensaje = await resp.ObtenerError();
+        }
+        
+    }
+
+}
