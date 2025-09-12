@@ -1,0 +1,58 @@
+﻿@page "/api/Categorias/editar/{categoriaId:int}"
+@inject IHttpServicio http
+@inject NavigationManager navigationManager
+<h3>Editar Categoria</h3>
+
+<EditForm Model="categoria" OnValidSubmit="Grabar">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>NombreCategoria</label>
+        <div>
+            <InputText class="form-control" @bind-Value="@categoria.NombreCategoria" />
+            <ValidationMessage For="@(() => categoria.NombreCategoria)" />
+        </div>
+    </div>
+    <br />
+    <button class="btn btn-primary" type="submit">Aceptar</button>
+    <button class="btn btn-secundary" @onclick="Cancelar">Cancelar</button>
+
+</EditForm>
+
+@code {
+        [Parameter] public int categoriaId { get; set; }
+        private Categoria categoria = new Categoria();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Mostrar();
+    }
+
+    private async Task Mostrar()
+    {
+        var respuesta = await http.Get<Categoria>($"api/Categorias/{categoriaId}"); 
+
+        if (!respuesta.Error)
+        {
+            categoria = respuesta.Respuesta;
+        }
+        else
+        {
+            navigationManager.NavigateTo("/api/Categorias");
+        }
+    }
+
+    private async Task Grabar()
+    {
+        var httpRespuesta = await http.Put<Categoria>($"api/Categorias/{categoriaId}", categoria);
+        if (httpRespuesta.Error)
+        {
+            var body = httpRespuesta.HttpResponseMessage;
+        }
+        navigationManager.NavigateTo("/api/Categorias");
+    }
+    private void Cancelar()
+    {
+        navigationManager.NavigateTo("/api/Categorias");
+    }
+}

@@ -12,7 +12,7 @@ namespace GestionDespensa25.Client.Servicios
         {
             this.http = http;
         }
-        public async Task<HttpRespuesta<T>> Get<T>(string url) //https://local
+        public async Task<HttpRespuesta<T>> Get<T>(string url) //https://localhot:7210/api/Categorias
         {
             var response = await http.GetAsync(url);
 
@@ -48,6 +48,28 @@ namespace GestionDespensa25.Client.Servicios
             }
 
                
+        }
+
+        public async Task<HttpRespuesta<object>> Put<T>(string url, T entidad)
+        {
+            var enviarJson = JsonSerializer.Serialize(entidad);
+
+            var enviarContent = new StringContent(enviarJson,
+                                Encoding.UTF8,
+                                "application/json");
+
+            var response = await http.PutAsync(url, enviarContent);
+            if (response.IsSuccessStatusCode)
+            {
+                var respuesta = await DesSerealizar<object>(response); //serializar = convertir el objeto en un archivo texto
+                return new HttpRespuesta<object>(respuesta, false, response); //las clases heredan de object
+            }
+            else
+            {
+                return new HttpRespuesta<object>(default, true, response);
+            }
+
+
         }
         private async Task<T?> DesSerealizar<T>(HttpResponseMessage response)
         {

@@ -1,9 +1,11 @@
 ﻿@page "/api/Categorias"
-@using GestionDespensa25.Client.Servicios
+
 @inject IHttpServicio http
 
 <h3>Lista de categorias</h3>
-
+<br/>
+<a class="btn btn-primary" href="/api/Categorias/Crear">Nueva Categoria</a>
+<br/>
 <table>
     <tr>
         <th>NombreCategoria</th>
@@ -24,7 +26,12 @@
             {
                <tr>
                     <td>@item.NombreCategoria</td>
-
+                    <td>
+                        <a class="btn btn-primary"
+                           href="api/Categorias/editar/@item.Id">
+                            Editar
+                        </a>
+                    </td>
                </tr>
             }
         }
