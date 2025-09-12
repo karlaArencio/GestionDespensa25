@@ -42,9 +42,9 @@ namespace GestionDespensa25.BD.Data.Entity
         [Required(ErrorMessage = "La Observacion del Proveedor es obligatorio,")]
         [MaxLength(150, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string Observacion { get; set; }
-        
-        public List<ProductoProveedor> ProductoProveedores { get; set; }
-        public List<CompraProveedor> CompraProveedores { get; set; }
+
+        public List<ProductoProveedor> ProductoProveedores { get; set; } = new List<ProductoProveedor>();
+        public List<CompraProveedor> CompraProveedores { get; set; } = new List<CompraProveedor>();
     }
 
 }

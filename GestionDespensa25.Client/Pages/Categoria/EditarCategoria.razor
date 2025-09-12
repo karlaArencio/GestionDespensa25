@@ -3,6 +3,8 @@
 @inject NavigationManager navigationManager
 <h3>Editar Categoria</h3>
 
+<h1>@titulo</h1>
+
 <EditForm Model="categoria" OnValidSubmit="Grabar">
     <DataAnnotationsValidator />
     <div class="form-group">
@@ -19,8 +21,10 @@
 </EditForm>
 
 @code {
-        [Parameter] public int categoriaId { get; set; }
-        private Categoria categoria = new Categoria();
+    [Parameter] public int categoriaId { get; set; }
+    private Categoria categoria = new Categoria();
+
+    string titulo = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -44,6 +48,8 @@
 
     private async Task Grabar()
     {
+        //titulo = categoriaId.ToString();
+        //categoria.Productos = new List<Producto>();esta escrita en su entity
         var httpRespuesta = await http.Put<Categoria>($"api/Categorias/{categoriaId}", categoria);
         if (httpRespuesta.Error)
         {

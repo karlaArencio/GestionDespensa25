@@ -36,6 +36,6 @@ namespace GestionDespensa25.BD.Data.Entity
         [Required(ErrorMessage = "El estado del cliente es obligatorio,")]
         [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string Estado { get; set; }
-        //public List<Venta> Ventas { get; set; } //Relacion 1:N un cliente puede tener muchas ventas
+        //public List<Venta> Ventas { get; set; } = new Lis<Venta>(); //Relacion 1:N un cliente puede tener muchas ventas
     }
 }

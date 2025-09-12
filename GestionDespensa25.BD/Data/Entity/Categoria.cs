@@ -16,6 +16,6 @@ namespace GestionDespensa25.BD.Data.Entity
         [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string NombreCategoria { get; set; }
 
-        public List<Producto> Productos { get; set; }
+        public List<Producto> Productos { get; set; } = new List<Producto>();
     }
 }

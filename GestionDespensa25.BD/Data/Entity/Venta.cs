@@ -48,6 +48,6 @@ namespace GestionDespensa25.BD.Data.Entity
         [Required(ErrorMessage = "El usuario es obligatorio")]
         public int UsuarioId { get; set; } //clave foránea
         public Usuario Usuario { get; set; }
-        public List<DetalleVenta> DetalleVentas { get; set; } //Relacion 1:N una venta puede tener muchos detalles de ventas
+        public List<DetalleVenta> DetalleVentas { get; set; } = new List<DetalleVenta>(); //Relacion 1:N una venta puede tener muchos detalles de ventas
     }
 }

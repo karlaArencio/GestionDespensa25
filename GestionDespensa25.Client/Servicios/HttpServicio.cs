@@ -59,10 +59,11 @@ namespace GestionDespensa25.Client.Servicios
                                 "application/json");
 
             var response = await http.PutAsync(url, enviarContent);
+
             if (response.IsSuccessStatusCode)
             {
-                var respuesta = await DesSerealizar<object>(response); //serializar = convertir el objeto en un archivo texto
-                return new HttpRespuesta<object>(respuesta, false, response); //las clases heredan de object
+               var respuesta = await DesSerealizar<object>(response); //serializar = convertir el objeto en un archivo texto
+                return new HttpRespuesta<object>(null, false, response); //las clases heredan de object
             }
             else
             {
@@ -70,6 +71,13 @@ namespace GestionDespensa25.Client.Servicios
             }
 
 
+        }
+
+        public async Task<HttpRespuesta<object>> Delete(string url)
+        {
+            var respuesta = await http.DeleteAsync(url);
+            return new HttpRespuesta<object>(null,
+                             !respuesta.IsSuccessStatusCode, respuesta);
         }
         private async Task<T?> DesSerealizar<T>(HttpResponseMessage response)
         {

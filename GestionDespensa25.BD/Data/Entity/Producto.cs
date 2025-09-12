@@ -45,8 +45,8 @@ namespace GestionDespensa25.BD.Data.Entity
         public int CategoriaId { get; set;  }
         public Categoria Categoria { get; set; }
 
-        public List<ProductoProveedor> ProductoProveedores { get; set; }
-        public List<DetalleVenta> DetalleVentas { get; set; }
-        public List<DetalleCompraProveedor> DetalleCompraProveedores { get; set; }
+        public List<ProductoProveedor> ProductoProveedores { get; set; } = new List<ProductoProveedor>();
+        public List<DetalleVenta> DetalleVentas { get; set; } = new List<DetalleVenta>();
+        public List<DetalleCompraProveedor> DetalleCompraProveedores { get; set; } = new List<DetalleCompraProveedor>();
     }
 }

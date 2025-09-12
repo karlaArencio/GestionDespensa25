@@ -31,24 +31,31 @@ namespace GestionDespensa25.Server.Controllers
         [HttpGet("{id:int}")]//api/Categorias/2
         public async Task<ActionResult<Categoria>> Get(int id)
         {
-            Categoria? categoria = await repositorio.SelectById(id);
-            if (categoria == null)
+            Categoria? dim = await repositorio.SelectById(id);
+            if (dim == null)
             {
                 return NotFound();
             }
-            return categoria;
+            return dim;
         }
 
        [HttpGet("GetByNom/{nombre}")]//api/Categorias/GetByNom/Bebidas
         public async Task<ActionResult<Categoria>> GetByNom(string nombre)
         {
-            var categoria = await repositorio.SelectByNom(nombre);
 
-           if (categoria == null)
+            var dim = await repositorio.SelectByNom(nombre);
+
+           if (dim == null)
            {
                 return NotFound($"No se encontro la categoria con nombre:{nombre}");
             }
-            return categoria;
+            return dim;
+            //Categoria?  dim =await repositorio.SelectByNom(nombre);
+            //if (dim ==null)
+            //{
+            // return NotFound();
+            //}
+            //return dim;
         }
 
         [HttpGet("existe/{id:int}")] //api/Categorias/existe/1
@@ -59,46 +66,39 @@ namespace GestionDespensa25.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post(CrearCategoriaDTO entidadDTO)
+        public async Task<ActionResult<int>> Post(Categoria entidad)
         {
             try
-            {
-                //Categoria entidad = new Categoria();
-                //entidad.NombreCategoria = entidadDTO.NombreCategoria;
-                Categoria entidad = mapper.Map<Categoria>(entidadDTO);
+            {        
+                //Categoria entidad = mapper.Map<Categoria>(entidadDTO);
 
-
-                
                 return await repositorio.Insert(entidad);
             }
             catch (Exception err)
             {
-                return BadRequest(err.InnerException.Message); //BadRequest:codigo de estado http 404
+                return BadRequest(err.Message); //BadRequest:codigo de estado http 404
             }
         }
 
         [HttpPut("{id:int}")]//api/Categorias/1
-        public async Task<ActionResult> Put(int id, [FromBody] Categoria entidad)
-
+        public async Task<ActionResult<bool>> Put(int id, [FromBody] Categoria entidad)
+         
         {
-            if (id == entidad.Id)
-            {
-                return BadRequest("Datos Incorrectos");
-            }
-            var nom = await repositorio.SelectById(id);
-
-            if (nom == null)
-            {
-                return NotFound("No existe el nombre de la categoria.");
-            }
-            nom.NombreCategoria = entidad.NombreCategoria;
-           
-
             try
             {
-                await repositorio.Update(id, nom);
-                return Ok();
+                if (id != entidad.Id)
+                {
+                    return BadRequest("Datos Incorrectos");
+                }
+                var nom = await repositorio.Update(id, entidad);
+
+                if (!nom)
+                {
+                    return BadRequest("No existe la categoria.");
+                }
+                return nom;
             }
+
             catch (Exception e)
             {
                 return BadRequest(e.Message);
@@ -108,19 +108,24 @@ namespace GestionDespensa25.Server.Controllers
         [HttpDelete("{id:int}")]//api/Categorias/2
         public async Task<ActionResult> Delete(int id)
         {
-            var existe = await repositorio.Existe(id);
-            if (!existe)
-            {
-                return NotFound($"la categorias {id} no existe.");
-            }
-            if (await repositorio.Delete(id))
-            {
+            var resp = await repositorio.Delete(id);
+            if (!resp)
+            { return BadRequest("La categoria no se puede borrar "); }
                 return Ok();
-            }
-            else 
-            {
-                return BadRequest();
-            }
+        
+            //var existe = await repositorio.Existe(id);
+            //if (!existe)
+            //{
+            //    return NotFound($"la categorias {id} no existe.");
+            //}
+            //if (await repositorio.Delete(id))
+            //{
+            //    return Ok();
+            //}
+            //else 
+            //{
+            //    return BadRequest();
+            //}
                
         }
 
