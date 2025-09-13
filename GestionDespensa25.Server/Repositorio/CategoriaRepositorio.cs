@@ -20,9 +20,9 @@ namespace GestionDespensa25.Server.Repositorio
             
         }
 
-        Task<ActionResult<Categoria?>> ICategoriaRepositorio.SelectByNom(string nombre)
-        {
-            throw new NotImplementedException();
-        }
+        //Task<ActionResult<Categoria?>> ICategoriaRepositorio.SelectByNom(string nombre)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }                                              

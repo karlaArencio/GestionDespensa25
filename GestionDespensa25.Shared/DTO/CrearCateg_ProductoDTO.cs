@@ -7,37 +7,37 @@ using System.Threading.Tasks;
 
 namespace GestionDespensa25.Shared.DTO
 {
-    public class CrearProductoDTO
+    public class CrearCateg_ProductoDTO
     {
+        [Required(ErrorMessage = "El Nombre de Categoria  es obligatorio,")]
+        [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1} ,")]
+        public string NombreCategoriaCateg { get; set; }
+
         [Required(ErrorMessage = "El nombre del producto es obligatorio,")]
         [MaxLength(50, ErrorMessage = "Maximo número de caracteres {1} ,")]
-        public string Nombre { get; set; } = string.Empty;
+        public string NombreProducto { get; set; }
 
         [Required(ErrorMessage = "El StockActual es obligatorio,")]
         [Range(0, int.MaxValue, ErrorMessage = "El stock actual debe ser un número positivo")]
-        public int StockActual { get; set; }
+        public string StockActualProducto { get; set; }
 
         [Required(ErrorMessage = "El StockMinimo es obligatorio,")]
         [Range(0, int.MaxValue, ErrorMessage = "El stock mínimo debe ser un número positivo")]
-        public int StockMinimo { get; set; }
+        public string StockMinimoProducto { get; set; }
 
         [Required(ErrorMessage = "El PrecioCosto es obligatorio,")]
         [Range(0.01, double.MaxValue, ErrorMessage = "El precio costo debe ser mayor a 0")]
-        public decimal PrecioCosto { get; set; }
+        public string PrecioCostoProducto { get; set; }
 
         [Required(ErrorMessage = "El PorcentajeGanancia es obligatorio,")]
         [Range(0, 100, ErrorMessage = "El porcentaje debe estar entre 0 y 100")]
-        public decimal PorcentajeGanancia { get; set; }
+        public string PorcentajeGananciaProducto { get; set; }
 
         [Required(ErrorMessage = "El PrecioVenta es obligatorio")]
         [Range(0.01, double.MaxValue, ErrorMessage = "El precio venta debe ser mayor a 0")]
-        public decimal PrecioVenta { get; set; }
+        public string PrecioVentaProducto { get; set; }
 
         [Required(ErrorMessage = "El Estado es obligatorio")]
-        public bool Estado { get; set; }
-
-        //[Required(ErrorMessage = "La categoria del producto es obligatorio,")]
-        //public int CategoriaId { get; set; }
-
+        public string EstadoProducto { get; set; }
     }
 }

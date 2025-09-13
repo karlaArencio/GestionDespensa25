@@ -49,7 +49,7 @@ namespace GestionDespensa25.Server.Controllers
            {
                 return NotFound($"No se encontro la categoria con nombre:{nombre}");
             }
-            return dim;
+            return Ok(dim);
             //Categoria?  dim =await repositorio.SelectByNom(nombre);
             //if (dim ==null)
             //{

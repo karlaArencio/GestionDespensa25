@@ -5,6 +5,6 @@ namespace GestionDespensa25.Server.Repositorio
 {
     public interface ICategoriaRepositorio : IRepositorio<Categoria>
     {
-        Task<ActionResult<Categoria?>> SelectByNom(string nombre);
+        Task<Categoria?> SelectByNom(string nombre);
     }
 }
