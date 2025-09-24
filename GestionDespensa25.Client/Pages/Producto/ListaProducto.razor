@@ -1,0 +1,57 @@
+﻿@* @page "/api/Productos"
+@inject IHttpServicio http
+
+<h3>Lista de Productos</h3>
+<br/>
+<table>
+    <tr>
+        <th>Nombre</th>
+        
+        <th>StockActual</th>
+        
+        <th>StockMinimo</th>
+        
+        <th>PrecioCosto</th>
+        
+        <th>PorcentajeGanancia</th>
+        
+        <th>PrecioVenta</th>
+
+        <th>Estado</th>
+        <th>CategoriaId</th>
+    </tr>
+
+    @foreach (var item in listaProductos)
+    { 
+        <tr>
+            <td>@item.Nombre</td>
+            <td>@item.StockActual</td>
+            <td>@item.StockMinimo</td>
+            <td>@item.PrecioCosto</td>
+            <td>@item.PorcentajeGanancia</td>
+            <td>@item.PrecioVenta</td>
+            <td>@item.Estado</td>
+            <td>@item.CategoriaId</td>
+        </tr>
+    }
+    
+
+</table>
+
+
+
+@code {
+    List<Producto> listaProductos;
+
+    protected override async Task OnInitializedAsync()  //override: sobreescribir
+    {
+        await base.OnInitializedAsync(); //await es cada ves que va asincrono
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+
+    }
+}
+ *@

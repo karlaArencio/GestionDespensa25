@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GestionDespensa25.BD.Data.Entity
 {
-    [Index(nameof(Nombre), Name = "Cliente_UQ", IsUnique = true)]
+    [Index(nameof(DNI), Name = "Cliente_DNI_UQ", IsUnique = true)]
    
     public class Cliente : EntityBase
     {
@@ -36,6 +36,8 @@ namespace GestionDespensa25.BD.Data.Entity
         [Required(ErrorMessage = "El estado del cliente es obligatorio,")]
         [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string Estado { get; set; }
-        //public List<Venta> Ventas { get; set; } = new Lis<Venta>(); //Relacion 1:N un cliente puede tener muchas ventas
+
+        // Relación 1:N: un cliente puede tener muchas ventas
+        public List<Venta> Ventas { get; set; } = new List<Venta>();
     }
 }

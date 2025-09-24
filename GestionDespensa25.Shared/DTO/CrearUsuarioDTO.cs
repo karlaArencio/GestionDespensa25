@@ -9,12 +9,12 @@ namespace GestionDespensa25.Shared.DTO
 {
     public class CrearUsuarioDTO
     {
-        [Required(ErrorMessage = "El Nombre Usuario es obligatorio")]
-        [MaxLength(50, ErrorMessage = "Máximo número de caracteres {1}.")]
+        [Required(ErrorMessage = "El nombre de usuario es obligatorio")]
+        [MaxLength(50, ErrorMessage = "Máximo número de caracteres {1}")]
         public string NombreUsuario { get; set; }
 
-        [Required(ErrorMessage = "La Clave es obligatorio")]
-        [MaxLength(8, ErrorMessage = "Máximo número de caracteres {1}.")]
+        [Required(ErrorMessage = "La clave es obligatoria")]
+        [MaxLength(8, ErrorMessage = "Máximo número de caracteres {1}")]
         public string Clave { get; set; }
     }
 }

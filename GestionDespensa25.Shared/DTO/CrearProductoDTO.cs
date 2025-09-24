@@ -36,8 +36,8 @@ namespace GestionDespensa25.Shared.DTO
         [Required(ErrorMessage = "El Estado es obligatorio")]
         public bool Estado { get; set; }
 
-        //[Required(ErrorMessage = "La categoria del producto es obligatorio,")]
-        //public int CategoriaId { get; set; }
+        [Required(ErrorMessage = "La categoria del producto es obligatorio,")]
+        public int CategoriaId { get; set; }
 
     }
 }

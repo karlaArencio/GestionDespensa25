@@ -30,7 +30,7 @@ namespace GestionDespensa25.Shared.DTO
         public string Direccion { get; set; }
 
         [Required(ErrorMessage = "El estado del cliente es obligatorio,")]
-        [MaxLength(100, ErrorMessage = "El estado del cliente es obligatorio {1},")]
+        [MaxLength(100, ErrorMessage = "Maximo número de caracteres {1} ,")]
         public string Estado { get; set; }
 
 

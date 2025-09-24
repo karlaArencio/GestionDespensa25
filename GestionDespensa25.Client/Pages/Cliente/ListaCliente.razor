@@ -1,0 +1,91 @@
+﻿@page "/api/Clientes"
+@inject IHttpServicio http
+
+
+<h3>Lista de Clientes</h3>
+<br/>
+<a class="btn btn-primary" href="/api/Clientes/crear">Nuevo Cliente</a>
+<br/>
+<table>
+    <tr>
+        <th>Nombre</th>
+        
+        <th>Apellido</th>
+        
+        <th>DNI</th>
+        
+        <th>Telefono</th>
+        
+        <th>Direccion</th>
+        
+        <th>Estado</th>
+    </tr>
+    @if (Mensaje == "")
+    {
+        @if (listaClientes == null)
+        {
+            <p>Buscando....</p>
+        }
+        else if (listaClientes.Count == 0)
+        {
+            <p>No existen listas de clientes</p>
+        }
+        else
+        {
+            @foreach (var item in listaClientes)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.Apellido</td>
+                    <td>@item.DNI</td>
+                    <td>@item.Telefono</td>
+                    <td>@item.Direccion</td>
+                    <td>@item.Estado</td>
+
+                    <td>
+                        <a class="btn btn-primary"
+                           href="api/Categorias/editar/@item.Id">
+                            Editar
+                        </a>
+                    </td>
+                   @*  <td>
+                        <button class="btn btn-danger"
+                                @onclick="() => Eliminar(item)">
+                            Borrar
+                        </button>
+                    </td> *@
+
+                </tr>
+            }
+        }
+    }
+    else
+    {
+        <p>Error: @Mensaje</p>
+    }
+</table>
+
+  @code {
+     List<Cliente> listaClientes;
+     string Mensaje = "";
+
+    protected override async Task OnInitializedAsync()  //override: sobreescribir
+    {
+        await base.OnInitializedAsync(); //await es cada ves que va asincrono
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+        var resp = await http.Get<List<Cliente>>("/api/Clientes");
+        if (!resp.Error)
+        {
+            listaClientes = resp.Respuesta;
+        }
+        else
+        {
+            Mensaje = await resp.ObtenerError();
+        }
+    }
+
+}

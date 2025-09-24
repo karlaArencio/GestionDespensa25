@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,19 +13,19 @@ namespace GestionDespensa25.BD.Data.Entity
     [Index(nameof(FechaApertura), Name = "Caja_UQ", IsUnique = true)]
     public class Caja : EntityBase
     {
-        [Required(ErrorMessage = "La FechaApertura de caja es obligatorio")]
-        [MaxLength(10, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string FechaApertura { get; set; }
+        [Required(ErrorMessage = "La Fecha de apertura de caja es obligatorio")]
+        
+        public DateTime FechaApertura { get; set; }
 
-        [Required(ErrorMessage = "La FechaCierre de caja es obligatorio")]
-        [MaxLength(10, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string FechaCierre { get; set; }
+        [Required(ErrorMessage = "La Fecha de cierre de caja es obligatorio")]
+        public DateTime FechaCierre { get; set; }
 
         [Required(ErrorMessage = "El Monto inicial de caja es obligatorio")]
-        [MaxLength(250, ErrorMessage = "Máximo número de caracteres {1}.")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal MontoInicial { get; set; }
+
         [Required(ErrorMessage = "El Monto Final de caja es obligatorio")]
-        [MaxLength(250, ErrorMessage = "Máximo número de caracteres {1}.")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal MontoFinal { get; set; }
 
         [Required(ErrorMessage = "El Estado de caja es obligatorio")]

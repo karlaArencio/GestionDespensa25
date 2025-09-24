@@ -1,0 +1,46 @@
+﻿@* @page "/api/Proveedores"
+@inject IHttpServicio http
+
+<h3>Lista de Proveedores</h3>
+<br/>
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>CUIT</th>
+        <th>Telefono</th>
+        <th>Email</th>
+        <th>Direccion</th>
+        <th>Estado</th>
+        <th>FechaAlta</th>
+        <th>Observacion</th>
+    </tr>
+    @foreach (var item in listaProveedores)
+    {
+        <tr>
+            <td>@item.Nombre</td>
+            <td>@item.CUIT</td>
+            <td>@item.Telefono</td>
+            <td>@item.Email</td>
+            <td>@item.Direccion</td>
+            <td>@item.Estado</td>
+            <td>@item.FechaAlta</td>
+            <td>@item.Observacion</td>
+        </tr>
+    }
+</table>
+
+@code {
+    List<Proveedor> listaProveedores;
+
+    protected override async Task OnInitializedAsync()  //override: sobreescribir
+    {
+        await base.OnInitializedAsync(); //await es cada ves que va asincrono
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+
+    }
+}
+ *@

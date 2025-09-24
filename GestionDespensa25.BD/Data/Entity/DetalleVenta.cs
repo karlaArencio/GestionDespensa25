@@ -8,25 +8,21 @@ using System.Threading.Tasks;
 
 namespace GestionDespensa25.BD.Data.Entity
 {
-    [Index(nameof(ProductoId), nameof(PrecioUnitario), Name = "DetalleVenta_UQ", IsUnique = true)]
+    [Index(nameof(VentaId), nameof(ProductoId), Name = "DetalleVenta_UQ", IsUnique = true)]
     public class DetalleVenta : EntityBase
     {
         [Required(ErrorMessage = "El precio unitario es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string PrecioUnitario { get; set; }
+        public decimal PrecioUnitario { get; set; }
 
-        [Required(ErrorMessage = "La cantidad es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string Cantidad { get; set; }
+        [Required(ErrorMessage = "La cantidad es obligatoria")]
+        public decimal Cantidad { get; set; }
 
         [Required(ErrorMessage = "El subtotal es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string Subtotal { get; set; }
+        public decimal Subtotal { get; set; }
 
-        [Required(ErrorMessage = "La Venta es obligatorio")]
-     
+        [Required(ErrorMessage = "La Venta es obligatoria")]
         public int VentaId { get; set; }
-        public Venta venta { get; set;  }
+        public Venta Venta { get; set;  }
 
         [Required(ErrorMessage = "El producto es obligatorio")]
         public int ProductoId { get; set; }

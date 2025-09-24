@@ -9,22 +9,20 @@ using System.Threading.Tasks;
 namespace GestionDespensa25.BD.Data.Entity
 {
     
-    [Index(nameof(ProductoId), nameof(Cantidad), Name = "DetalleCompraProveedor_UQ", IsUnique = true)]
+    [Index(nameof(CompraProveedorId), nameof(ProductoId), Name = "DetalleCompraProveedor_UQ", IsUnique = true)]
     public class DetalleCompraProveedor : EntityBase
     {
-        [Required(ErrorMessage = "La cantidad es obligatorio,")]
-        [MaxLength(150, ErrorMessage = "Maximo número de caracteres {1} ,")]
-        public string Cantidad { get; set; }
+        [Required(ErrorMessage = "La cantidad es obligatoria")]
+        public decimal Cantidad { get; set; } //Decimal si permite fracciones
 
-        [Required(ErrorMessage = "La FechaCompra es obligatorio,")]
-        [MaxLength(150, ErrorMessage = "Maximo número de caracteres {1} ,")]
-        public string PrecioUnitario { get; set; }
+        [Required(ErrorMessage = "El precio unitario es obligatorio")]
+        public decimal PrecioUnitario { get; set; }
 
-        [Required(ErrorMessage = "La CompraProveedor es obligatorio,")]
+        [Required(ErrorMessage = "La Compra Proveedor es obligatoria")]
         public int CompraProveedorId { get; set; }
         public CompraProveedor CompraProveedor { get; set; }
 
-        [Required(ErrorMessage = "El producto es obligatorio,")]
+        [Required(ErrorMessage = "El producto es obligatorio")]
         public int ProductoId { get; set; }
         public Producto Producto { get; set; }
             

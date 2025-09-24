@@ -1,0 +1,35 @@
+﻿@* @page "/api/Usuarios"
+@inject IHttpServicio http
+
+<h3>Lista de Usuarios</h3>
+<br/>
+<table>
+    <tr>
+        <th>NombreUsuario</th>
+        <th>Clave</th>
+    </tr>
+    @foreach (var item in listaUsuarios)
+    {
+        <tr>
+            <td>@item.NombreUsuario</td>
+            <td>@item.Clave</td>
+        </tr>
+        
+    }
+</table>
+
+@code {
+    List<Usuario> listaUsuarios;
+
+    protected override async Task OnInitializedAsync()  //override: sobreescribir
+    {
+        await base.OnInitializedAsync(); //await es cada ves que va asincrono
+        await Leer();
+    }
+
+    private async Task Leer()
+    {
+
+    }
+}
+ *@

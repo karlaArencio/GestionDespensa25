@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace GestionDespensa25.BD.Data.Entity
 {
-    [Index(nameof(ProductoId), Name = "ProductoProveedor_UQ", IsUnique = true)]
+    [Index(nameof(ProductoId), nameof(ProveedorId), Name = "ProductoProveedor_UQ", IsUnique = true)]
     public class ProductoProveedor : EntityBase
     {
         [Required(ErrorMessage = "El producto es obligatorio,")]
-   
         public int ProductoId { get; set; }
         public Producto Producto { get; set; }
 

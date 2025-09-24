@@ -8,19 +8,21 @@ using System.Threading.Tasks;
 
 namespace GestionDespensa25.BD.Data.Entity
 {
-    [Index(nameof(NombreUsuario), nameof(Clave), Name ="Usuario_Clave_NombreUsuario", IsUnique =false)]
+    [Index(nameof(NombreUsuario), Name ="Usuario_NombreUsuario_UQ", IsUnique = true)]
     public class Usuario : EntityBase
     {
 
-        [Required(ErrorMessage = "El Nombre Usuario es obligatorio")]
-        [MaxLength(50, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string  NombreUsuario { get; set; }
+        [Required(ErrorMessage = "El nombre de usuario es obligatorio")]
+        [MaxLength(50, ErrorMessage = "Máximo número de caracteres {1}")]
+        public string NombreUsuario { get; set; }
 
-        [Required(ErrorMessage = "La Clave es obligatorio")]
-        [MaxLength(8, ErrorMessage = "Máximo número de caracteres {1}.")]
+        [Required(ErrorMessage = "La clave es obligatoria")]
+        [MaxLength(8, ErrorMessage = "Máximo número de caracteres {1}")]
         public string Clave { get; set; }
-        //public string Rol  { get; set; }
-        //public List<Caja> Cajas { get; set; } = new List<Caja>();
-        //public List<Venta> Ventas { get; set; } = new List<Venta>();
+
+        // Rol, cajas y ventas para futuras relaciones
+        // public string Rol  { get; set; }
+        // public List<Caja> Cajas { get; set; } = new List<Caja>();
+        // public List<Venta> Ventas { get; set; } = new List<Venta>();
     }
 }

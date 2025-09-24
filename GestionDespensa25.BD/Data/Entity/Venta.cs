@@ -13,41 +13,40 @@ namespace GestionDespensa25.BD.Data.Entity
 
     public class Venta : EntityBase
     {
-        [Required(ErrorMessage = "La Fecha de Venta es obligatorio")]
-        [MaxLength(10, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string Fecha { get; set; }
+        [Required(ErrorMessage = "La fecha de venta es obligatoria")]
+        public DateTime Fecha { get; set; }
 
-        [Required(ErrorMessage = "El tipo de pago de Venta es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string TipoPago { get; set; }//efectivo, tarjeta, transferencia.
+        [Required(ErrorMessage = "El tipo de pago de la venta es obligatorio")]
+        [MaxLength(50, ErrorMessage = "Máximo número de caracteres {1}")]
+        public string TipoPago { get; set; } // Efectivo, tarjeta, transferencia
 
-        [Required(ErrorMessage = "La Estado de Venta es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string Estado { get; set; } //pendiente, pagado, anulado.
+        [Required(ErrorMessage = "El estado de la venta es obligatorio")]
+        [MaxLength(50, ErrorMessage = "Máximo número de caracteres {1}")]
+        public string Estado { get; set; } // Pendiente, pagado, anulado
 
-        [Required(ErrorMessage = "El sub total de Venta es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string SubTotal { get; set; }
-        [Required(ErrorMessage = "El impuesto de Venta es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string Impuesto { get; set; }
-        [Required(ErrorMessage = "El total de Venta es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string Total { get; set; }
-        [Required(ErrorMessage = "El monto pagado de venta es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string MontoPagado { get; set; }
-        [Required(ErrorMessage = "El saldo pendiente de venta es obligatorio")]
-        [MaxLength(150, ErrorMessage = "Máximo número de caracteres {1}.")]
-        public string SaldoPendiente { get; set; }
+        [Required(ErrorMessage = "El subtotal de la venta es obligatorio")]
+        public decimal SubTotal { get; set; }
 
-        [Required(ErrorMessage = "El Cliente es obligatorio")]
-        public int ClienteId { get; set; } //clave foránea
+        [Required(ErrorMessage = "El impuesto de la venta es obligatorio")]
+        public decimal Impuesto { get; set; }
+
+        [Required(ErrorMessage = "El total de la venta es obligatorio")]
+        public decimal Total { get; set; }
+
+        [Required(ErrorMessage = "El monto pagado de la venta es obligatorio")]
+        public decimal MontoPagado { get; set; }
+
+        [Required(ErrorMessage = "El saldo pendiente de la venta es obligatorio")]
+        public decimal SaldoPendiente { get; set; }
+
+        [Required(ErrorMessage = "El cliente es obligatorio")]
+        public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
 
         [Required(ErrorMessage = "El usuario es obligatorio")]
-        public int UsuarioId { get; set; } //clave foránea
+        public int UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
-        public List<DetalleVenta> DetalleVentas { get; set; } = new List<DetalleVenta>(); //Relacion 1:N una venta puede tener muchos detalles de ventas
+
+        public List<DetalleVenta> DetalleVentas { get; set; } = new List<DetalleVenta>(); // 1:N
     }
 }
